@@ -16,6 +16,8 @@ public class Client {
 	private String zip = CommonConstants.EMPTY_STRING;
 	private String email = CommonConstants.EMPTY_STRING;
 	private String phoneNo = CommonConstants.EMPTY_STRING;
+	private String accNumber = CommonConstants.EMPTY_STRING;
+	
 	
 	public int getClientId() {
 		return clientId;
@@ -89,5 +91,10 @@ public class Client {
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
-	
+	public String getAccNumber() {
+		return accNumber;
+	}
+	public void setAccNumber(String accNumber) {
+		this.accNumber = accNumber;
+	}
 }

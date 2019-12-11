@@ -34,7 +34,7 @@ public class ClientScreen extends JFrame {
 	private JComboBox cmbAccountType_D;
 	private JLabel lblDepositAmount_D;
 	private JTextField txtDepositAmount_D;
-	private JButton btnDeposit_D;
+    private JButton btnDeposit_D;
 	private JPanel pnlAccountBalance;
 	private JComboBox cmbAccountNumber_A;
 	private JLabel lblAccountBalance_A;
@@ -69,6 +69,7 @@ public class ClientScreen extends JFrame {
 	private JLabel lblBillAmountValue_B;
 	private JLabel lblBillType_B;
 	private JLabel lblBillTypeValue_B;
+	private JButton btnLogout;
 
 	@SuppressWarnings("unchecked")
 	public ClientScreen() {
@@ -175,6 +176,13 @@ public class ClientScreen extends JFrame {
 		gbc_lblAccountBalanceValue_A.gridx = 2;
 		gbc_lblAccountBalanceValue_A.gridy = 4;
 		pnlAccountBalance.add(lblAccountBalanceValue_A, gbc_lblAccountBalanceValue_A);
+		
+		btnLogout = new JButton("Logout");
+		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
+		gbc_btnLogout.insets = new Insets(0, 0, 5, 0);
+		gbc_btnLogout.gridx = 1;
+		gbc_btnLogout.gridy = 0;
+		getContentPane().add(btnLogout, gbc_btnLogout);
 		
 		pnlDeposit = new JPanel();
 		pnlDeposit.setBorder(new TitledBorder(null, "DEPOSIT", TitledBorder.LEADING, TitledBorder.TOP, null, null));

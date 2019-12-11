@@ -26,6 +26,7 @@ import BankingSystemBusinessLogic.AdminLogic;
 import BankingSystemConstants.CommonConstants;
 import BankingSystemPOJO.Client;
 
+
 public class AdminScreen extends JFrame {
 
 	/**
@@ -45,6 +46,7 @@ public class AdminScreen extends JFrame {
 	private JTextField txtDateOfBirth_ACF;
 	private JTextField txtPassword_ACF;
 	private JTextField txtUsername_ACF;
+	private JComboBox cmbAccNumber_ACF;
 	/**
 	 * Create the frame.
 	 */
@@ -61,9 +63,9 @@ public class AdminScreen extends JFrame {
 		pnlClientForm_AC.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Client Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		GridBagLayout gbl_pnlClientForm_AC = new GridBagLayout();
 		gbl_pnlClientForm_AC.columnWidths = new int[]{26, 95, 106, 79, 0, 0, 0};
-		gbl_pnlClientForm_AC.rowHeights = new int[]{20, 0, 0, 20, 0, 0, 0, 43, 0, 0};
+		gbl_pnlClientForm_AC.rowHeights = new int[]{20, 0, 0, 20, 0, 0, 0, 0, 43, 0, 0};
 		gbl_pnlClientForm_AC.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_pnlClientForm_AC.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlClientForm_AC.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		pnlClientForm_AC.setLayout(gbl_pnlClientForm_AC);
 		
 		JLabel lblClientId_ACF = new JLabel("");
@@ -287,6 +289,7 @@ public class AdminScreen extends JFrame {
 				clientDetails.setZip(txtPostalCode_ACF.getText());
 				clientDetails.setEmail(txtEmailId_ACF.getText());
 				clientDetails.setPhoneNo(txtContactNumber_ACF.getText());
+				clientDetails.setAccNumber(cmbAccNumber_ACF.getSelectedItem().toString());
 				boolean flag = adminLogic.saveClientDetails(clientDetails);
 				if(flag) {
 					lblClientId_ACF.setText(CommonConstants.EMPTY_STRING);
@@ -326,24 +329,60 @@ public class AdminScreen extends JFrame {
 				txtContactNumber_ACF.setText(CommonConstants.EMPTY_STRING);
 			}
 		});
+		
+		JLabel lblNumberOfAccount = new JLabel("Number of Account");
+		GridBagConstraints gbc_lblNumberOfAccount = new GridBagConstraints();
+		gbc_lblNumberOfAccount.anchor = GridBagConstraints.EAST;
+		gbc_lblNumberOfAccount.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumberOfAccount.gridx = 2;
+		gbc_lblNumberOfAccount.gridy = 7;
+		pnlClientForm_AC.add(lblNumberOfAccount, gbc_lblNumberOfAccount);
+		
+		cmbAccNumber_ACF = new JComboBox();
+		cmbAccNumber_ACF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "1", "2", "3", "4", "5"}));
+		GridBagConstraints gbc_cmbAccNumber_ACF = new GridBagConstraints();
+		gbc_cmbAccNumber_ACF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbAccNumber_ACF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbAccNumber_ACF.gridx = 3;
+		gbc_cmbAccNumber_ACF.gridy = 7;
+		pnlClientForm_AC.add(cmbAccNumber_ACF, gbc_cmbAccNumber_ACF);
 		GridBagConstraints gbc_btnNew_ACF = new GridBagConstraints();
 		gbc_btnNew_ACF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNew_ACF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNew_ACF.gridx = 2;
-		gbc_btnNew_ACF.gridy = 7;
+		gbc_btnNew_ACF.gridy = 8;
 		pnlClientForm_AC.add(btnNew_ACF, gbc_btnNew_ACF);
 		GridBagConstraints gbc_btnSave_ACF = new GridBagConstraints();
 		gbc_btnSave_ACF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSave_ACF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSave_ACF.gridx = 3;
-		gbc_btnSave_ACF.gridy = 7;
+		gbc_btnSave_ACF.gridy = 8;
 		pnlClientForm_AC.add(btnSave_ACF, gbc_btnSave_ACF);
 		GridBagConstraints gbc_btnDelete_ACF = new GridBagConstraints();
 		gbc_btnDelete_ACF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnDelete_ACF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDelete_ACF.gridx = 4;
-		gbc_btnDelete_ACF.gridy = 7;
+		gbc_btnDelete_ACF.gridy = 8;
 		pnlClientForm_AC.add(btnDelete_ACF, gbc_btnDelete_ACF);
+		
+		JButton btnLogout = new JButton("Logout");
+		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
+		gbc_btnLogout.insets = new Insets(0, 0, 0, 5);
+		gbc_btnLogout.gridx = 4;
+		gbc_btnLogout.gridy = 9;
+		pnlClientForm_AC.add(btnLogout, gbc_btnLogout);
+		btnLogout.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?",
+						"Close Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (option == JOptionPane.YES_OPTION) {
+					BankMainUI window = new BankMainUI();
+					window.bankUI.setVisible(true);
+					setVisible(false);
+				}
+			}
+		});
 		
 		JPanel pnlClientList_AC = new JPanel();
 		pnlClientList_AC.setBounds(493, 0, 465, 365);
@@ -420,16 +459,16 @@ public class AdminScreen extends JFrame {
 					for (int i=0;i<alClientDetails.size();i++) {
 						Object[] row = new String[21];
 						row[0] = alClientDetails.get(i).getClientId()+"";
-						row[0] = alClientDetails.get(i).getUserName();
-						row[0] = alClientDetails.get(i).getPwd();
-						row[0] = alClientDetails.get(i).getFirstName();
-						row[0] = alClientDetails.get(i).getLastName();
-						row[0] = alClientDetails.get(i).getSex();
-						row[0] = alClientDetails.get(i).getDob();
-						row[0] = alClientDetails.get(i).getAddress();
-						row[0] = alClientDetails.get(i).getZip();
-						row[0] = alClientDetails.get(i).getEmail();
-						row[0] = alClientDetails.get(i).getPhoneNo();
+						row[1] = alClientDetails.get(i).getUserName();
+						row[2] = alClientDetails.get(i).getPwd();
+						row[3] = alClientDetails.get(i).getFirstName();
+						row[4] = alClientDetails.get(i).getLastName();
+						row[5] = alClientDetails.get(i).getSex();
+						row[6] = alClientDetails.get(i).getDob();
+						row[7] = alClientDetails.get(i).getAddress();
+						row[8] = alClientDetails.get(i).getZip();
+						row[9] = alClientDetails.get(i).getEmail();
+						row[10] = alClientDetails.get(i).getPhoneNo();
 						modelClient.addRow(row);
 					}
 				}

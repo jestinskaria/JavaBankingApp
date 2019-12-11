@@ -26,7 +26,7 @@ public class ClientDAO {
 					+ " client_email,client_phone_no,created_user_id)" 
 					+ " VALUES(?,?,?,?,"
 					+ " ?,?,?,?,"
-					+ " ?,?,?,");
+					+ " ?,?,?)");
 			pstmt.setString(1, clientDetails.getUserName());
 			pstmt.setString(2, clientDetails.getPwd());
 			pstmt.setString(3, clientDetails.getFirstName());
@@ -39,6 +39,31 @@ public class ClientDAO {
 			pstmt.setString(10, clientDetails.getPhoneNo());
 			pstmt.setString(11, commonUtil.getUserId());
 			pstmt.execute();
+			
+			//get client id
+			pstmt = conn.prepareStatement("SELECT client_user_id"
+					+ " FROM tbl_client"
+					+ " WHERE client_user_name=? AND client_user_password=? AND client_f_name=? AND client_l_name=?");
+			pstmt.setString(1, clientDetails.getUserName());
+			pstmt.setString(2, clientDetails.getPwd());
+			pstmt.setString(3, clientDetails.getFirstName());
+			pstmt.setString(4, clientDetails.getLastName());
+			rs = pstmt.executeQuery();
+			int clientId = 0;
+			while (rs.next()) {
+				clientId = rs.getInt("client_user_id");
+			}
+			
+			for(int i=0;i<Integer.parseInt(clientDetails.getAccNumber());i++) {
+				pstmt = conn.prepareStatement("INSERT INTO tbl_account_balance "
+						+ " (CLIENT_ID,ACC_NO,C_BALANCE,S_BALANCE)"
+						+ " VALUES(?,?,?,?)");
+				pstmt.setInt(1, clientId);
+				pstmt.setString(2, "BCS"+System.currentTimeMillis());
+				pstmt.setDouble(3, 0.0);
+				pstmt.setDouble(4, 0.0);
+				pstmt.execute();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag =  false;
@@ -61,10 +86,10 @@ public class ClientDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("UPDATE tbl_client "
-					+ " SET client_user_name,client_user_password,client_f_name,client_l_name," 
-					+ " client_dob,client_sex,client_address,client_zip_code,"
-					+ " client_email,client_phone_no,created_user_id" 
-					+ " WHERE client_user_id = ?");
+					+ " SET client_user_name=?,client_user_password=?,client_f_name=?,client_l_name=?," 
+					+ " client_dob=?,client_sex=?,client_address=?,client_zip_code=?,"
+					+ " client_email=?,client_phone_no=?" 
+					+ " WHERE client_user_id=?");
 			pstmt.setString(1, clientDetails.getUserName());
 			pstmt.setString(2, clientDetails.getPwd());
 			pstmt.setString(3, clientDetails.getFirstName());
@@ -75,8 +100,7 @@ public class ClientDAO {
 			pstmt.setString(8, clientDetails.getZip());
 			pstmt.setString(9, clientDetails.getEmail());
 			pstmt.setString(10, clientDetails.getPhoneNo());
-			pstmt.setString(11, commonUtil.getUserId());
-			pstmt.setInt(12, clientDetails.getClientId());
+			pstmt.setInt(11, clientDetails.getClientId());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();

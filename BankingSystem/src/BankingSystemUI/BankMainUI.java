@@ -34,7 +34,7 @@ import javax.swing.DefaultComboBoxModel;
 
 public class BankMainUI {
 
-	private JFrame bankUI;
+	JFrame bankUI;
 	private JPanel welcomePanel;
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;

@@ -7,7 +7,7 @@ public class DBConn {
 
 	Connection conn = null;
 
- public static Connection jdbcConnection() {
+public static Connection jdbcConnection() {
 		final String DB_URL = "jdbc:mysql://localhost/bankdb";
 		final String USERNAME = "root";
 		final String PASSWORD = "";
